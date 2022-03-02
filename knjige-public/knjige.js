@@ -19,10 +19,11 @@ addButton.addEventListener('click', () => {
 //on page load grab all borrowers from db and insert them to borrowers grid
 const borrowers = await getRequest();
 const borrowerList = document.querySelector('#borrower-list');
+
+//function that adds the necessary html elements for borrower
 const appendBorrowers = () => {
     for (let i = 0; i < borrowers.length; i++) {
-        const borrowerEntry = document.createElement('li')
-
+        const borrowerEntry = document.createElement('li')       
         const pName = document.createElement('p')
         const pBook = document.createElement('p')
         const pDate = document.createElement('p')
@@ -76,7 +77,7 @@ if (borrowers.length > 0) {
     borrowerList.appendChild(p);
 }
 
-//select buttons so we can iterate through them with event listeners
+//select buttons so we can target them with event listeners
 const addNotes = document.querySelectorAll(".btn-note");
 const remNotes = document.querySelectorAll(".btn-note-rem");
 const removeBorrower = document.querySelectorAll(".btn-remove");
@@ -110,7 +111,7 @@ remNotes.forEach(button => {
 addNotes.forEach(button => {
     button.addEventListener('click', () => {
         toggleColor(button)
-        //adds text area only if it doesn't exist by checking if the last child is the note btn
+        //adds form only if it doesn't exist, otherwise remove it
         if (button.parentElement.querySelector(".note-form") == null) {
             let form = document.createElement('form');
             setAttributes(form, {
