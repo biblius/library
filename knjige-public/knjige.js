@@ -60,7 +60,7 @@ const appendBorrowers = () => {
         tooltip.classList.add('tooltip');
         tooltipText.classList.add('tooltip-text');
         tooltipText.innerHTML = "Remove Borrower";
-
+        
         const buttonRemove = document.createElement('i');
         buttonRemove.innerHTML = "remove_circle_outline";
         setAttributes(buttonRemove, {
@@ -70,14 +70,14 @@ const appendBorrowers = () => {
         });
         tooltip.appendChild(tooltipText);
         buttonRemove.appendChild(tooltip);
-
+        
         //the add note button is the only one with the id exactly equal to the borrower
         const buttonAddNote = document.createElement('button');
         buttonAddNote.classList.add("btn-note");
         buttonAddNote.innerHTML = "Add Note";
         buttonAddNote.setAttribute("id", `${borrowers[i]._id}`);
         borrowerEntry.appendChild(buttonAddNote);
-
+        
         //create remove note button only if the note exists
         if (borrowers[i].notes.length > 0) {
             let buttonRemNote = document.createElement('button');

@@ -13,6 +13,7 @@ const getRequest = () => {
             }
             throw new Error('Request failed!');
         }).then(jsonResponse => {
+            console.log(jsonResponse)
             return jsonResponse;
         })
     return borrowers;
