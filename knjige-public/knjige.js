@@ -18,12 +18,13 @@ addButton.addEventListener('click', () => {
 
 //on page load grab all borrowers from db and insert them to borrowers grid
 const borrowers = await getRequest();
-const borrowerList = document.querySelector('#borrower-list');
+const borrowerContainer = document.querySelector('#borrower-container');
 
-//function that adds the necessary html elements for borrower
+//adds the necessary html elements for each borrower
 const appendBorrowers = () => {
     for (let i = 0; i < borrowers.length; i++) {
-        const borrowerEntry = document.createElement('li')       
+        const borrowerEntry = document.createElement('li')
+        borrowerEntry.classList.add('borrower-entry')      
         const pName = document.createElement('p')
         const pBook = document.createElement('p')
         const pDate = document.createElement('p')
@@ -33,29 +34,51 @@ const appendBorrowers = () => {
         borrowerEntry.appendChild(pName)
         borrowerEntry.appendChild(pBook)
         borrowerEntry.appendChild(pDate)
-        //appends note field only if it already exists
+
+        //create note list only if notes exist
         if (borrowers[i].notes.length > 0) {
-            const pNote = document.createElement('p');
-            pNote.innerHTML = `Notes: ${borrowers[i].notes}`;
-            borrowerEntry.appendChild(pNote);
+            //create note container and its note list
+            const noteContainer = document.createElement('div');
+            const noteList = document.createElement('ul');
+            //set their classes
+            noteContainer.classList.add('note-container')
+            noteList.classList.add('note-list')
+            //append all notes from the array to note list
+            borrowers[i].notes.forEach(noteEl => {
+                const note = document.createElement('li');
+                note.innerHTML = `${noteEl}`;
+                noteList.appendChild(note);
+            })
+            //append them to the container
+            noteContainer.appendChild(noteList);
+            borrowerEntry.appendChild(noteContainer);
         }
-        //note, remove note, and remove borrower buttons with corresponding borrower ids
-        let buttonRemove = document.createElement('i');
+
+        //create remove borrower icon with corresponding borrower id and tooltip
+        const tooltip = document.createElement('div');
+        const tooltipText = document.createElement('span');
+        tooltip.classList.add('tooltip');
+        tooltipText.classList.add('tooltip-text');
+        tooltipText.innerHTML = "Remove Borrower";
+
+        const buttonRemove = document.createElement('i');
         buttonRemove.innerHTML = "remove_circle_outline";
         setAttributes(buttonRemove, {
-            "class": "material-icons btn-remove",
+            "class": "material-icons btn-remove tooltip",
             "id": `remove-${borrowers[i]._id}`,
             "onClick": 'window.location.reload();'
-        })
+        });
+        tooltip.appendChild(tooltipText);
+        buttonRemove.appendChild(tooltip);
 
-        //the add note button is the only one with the id exactly equal to its user
-        let buttonAddNote = document.createElement('button');
+        //the add note button is the only one with the id exactly equal to the borrower
+        const buttonAddNote = document.createElement('button');
         buttonAddNote.classList.add("btn-note");
         buttonAddNote.innerHTML = "Add Note";
         buttonAddNote.setAttribute("id", `${borrowers[i]._id}`);
-
-        //add remove note button only if the note exists
         borrowerEntry.appendChild(buttonAddNote);
+
+        //create remove note button only if the note exists
         if (borrowers[i].notes.length > 0) {
             let buttonRemNote = document.createElement('button');
             buttonRemNote.classList.add("btn-note-rem");
@@ -64,7 +87,7 @@ const appendBorrowers = () => {
             borrowerEntry.appendChild(buttonRemNote);
         }
         borrowerEntry.appendChild(buttonRemove);
-        borrowerList.appendChild(borrowerEntry);
+        borrowerContainer.appendChild(borrowerEntry);
     }
 }
 
@@ -74,7 +97,7 @@ if (borrowers.length > 0) {
 } else {
     let p = document.createElement('p');
     p.innerHTML = "No borrowers... yet";
-    borrowerList.appendChild(p);
+    borrowerContainer.appendChild(p);
 }
 
 //select buttons so we can target them with event listeners
@@ -93,7 +116,7 @@ removeBorrower.forEach(button => {
         })
     })
 })
-//on click remove note from borrower
+//on click remove all notes from borrower
 remNotes.forEach(button => {
     button.addEventListener('click', () => {
         borrowers.forEach(borrower => {
@@ -131,12 +154,11 @@ addNotes.forEach(button => {
                 "type": "submit",
                 "value": "Submit",
             });
-            button.after(form);
             form.appendChild(input);
             form.appendChild(submit);
-            //adds event handler for put requests
+            button.after(form);
+            //on submit send put request with the value from the text area
             submit.addEventListener('click', () => {
-                console.log(submit.id);
                 addNotesPut(submit.id, input.value);
             })
         } else {

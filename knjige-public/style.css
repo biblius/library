@@ -2,23 +2,37 @@
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-@keyframes fadeIn{
-    from { opacity: 0; }
-    to   { opacity: 1; }
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
-header{
+body {
+    background-color: black;
+    margin: auto;
+    padding-bottom: 300px;
+    width: 100%;
+    height: 100%;
+}
+
+/*****************BANNER**********/
+header {
     animation: fadeIn 2s;
     display: flex;
     justify-content: center;
     align-items: center;
     background-image: linear-gradient(0deg, rgba(139, 70, 172, 0.4),
-    rgba(196, 196, 196, 0.2)), url("./library.jfif");
+            rgba(196, 196, 196, 0.2)), url("./library.jfif");
     background-repeat: no-repeat;
     background-size: cover;
     padding: 200px 0 200px 0;
     height: 30%;
-    width: 100%; 
+    width: 100%;
 }
 
 h1 {
@@ -30,22 +44,7 @@ h1 {
     margin: auto;
 }
 
-body {
-    background-color: black;
-    margin: auto;
-    padding-bottom: 300px;
-    width: 100%;
-    height: 100%;
-}
-
-.list-title{
-    color: white;
-    font-size: 32px;
-    width:fit-content;
-    margin: auto;
-    margin-bottom: 50px;
-}
-
+/****************NEW BORROWER*******************/
 #new-borrower-container {
     display: grid;
     grid-template: 70px 70px / 1fr 1fr 1fr;
@@ -87,24 +86,33 @@ body {
     grid-area: 1 / 1 / 2 / 2;
 }
 
-#book-input-add{
+#book-input-add {
     margin-top: 30px;
     grid-area: 2 / 1 / 3 / 2;
 }
 
-label[for="borrower-name-add"]{
+label[for="borrower-name-add"] {
     z-index: 1;
     grid-area: 1 / 1 / 2 / 2;
     margin-bottom: 30px;
 }
 
-label[for="book-input-add"]{
+label[for="book-input-add"] {
     z-index: 1;
     grid-area: 2 / 1 / 3 / 2;
     margin-bottom: 30px;
 }
 
-#borrower-list {
+/******************BORROWER GRID****************/
+.title {
+    color: white;
+    font-size: 32px;
+    width: fit-content;
+    margin: auto;
+    margin-bottom: 50px;
+}
+
+#borrower-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-auto-flow: row;
@@ -119,18 +127,11 @@ label[for="book-input-add"]{
     background-color: rgba(255, 255, 255, 0.151);
 }
 
-#borrower-list::-webkit-scrollbar {
+#borrower-container::-webkit-scrollbar {
     display: none;
 }
 
-#borrower-list p {
-    color: rgb(0, 0, 0);
-    text-align: left;
-    width: 100%;
-    grid-area: 1 / 1 / 2 / 5;
-}
-
-#borrower-list li {
+.borrower-entry {
     position: relative;
     display: block;
     width: 250px;
@@ -143,31 +144,61 @@ label[for="book-input-add"]{
     background-color: rgba(174, 116, 197, 0.26);
 }
 
-#borrower-list li:hover {
+.borrower-entry:hover {
     transition: background-color 300ms ease-out 0s;
     background-color: rgba(138, 56, 170, 0.541);
 }
 
-#borrower-list li::-webkit-scrollbar {
+.borrower-entry::-webkit-scrollbar {
     display: none;
 }
 
-#borrower-list li p {
+.borrower-entry p {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: large;
-    font-weight: 550;
+    font-weight: 450;
     width: 100%;
     height: fit-content;
     margin: 5px;
     margin-bottom: 15px;
     border-bottom: 1px dotted rgb(128, 127, 127);
+    color: rgb(255, 255, 255);
+    letter-spacing: 1px;
 }
 
-#borrower-list button {
+#borrower-container button {
+    background-color: azure;
     display: block;
     margin: 5px auto;
 }
 
+.note-container {
+    margin: auto;
+}
+
+.note-container ul {
+    color: rgb(216, 216, 216);
+    left: 0;
+    padding: 10px 0;
+    margin: 3px;
+    margin-left: 25px;
+}
+
+.note-container li {
+    margin: auto;
+}
+
+.btn-note-rem {
+    height: 20px;
+    width: 150px;
+}
+
+.btn-note {
+    height: 20px;
+    width: 150px;
+}
+
+/***************************NOTE FORM*************************/
 .note-form {
     padding: 5px;
     display: block;
@@ -190,26 +221,55 @@ textarea {
     margin: 0px auto;
 }
 
-.btn-note-rem {
-    height: 20px;
-    width: 100px;
-}
-
-.btn-note {
-    height: 20px;
-    width: 100px;
-}
-
+/*************DREADED MINUS BUTTON & TOOLTIP***********/
 .material-icons {
-    position: absolute;
-    right: 2px;
-    top: calc(100% - 30px);
-    bottom: 2px;
+    position: relative;
     height: fit-content;
     width: 25px;
+    left: calc(50% - 12.5px);
+    bottom: 0;
 }
-.material-icons:hover{
+
+.material-icons:hover {
     transition: color 200ms ease-out 0s;
-    color:rgb(48, 48, 48);
+    color: rgb(48, 48, 48);
     cursor: pointer;
+}
+
+.tooltip {
+    position: relative;
+}
+
+.tooltip .tooltip-text {
+    opacity: 0;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    top: 100%;
+    left: 50%;
+    width: 150px;
+    margin-left: -75px;
+    font-size: 14px;
+}
+
+.material-icons:hover .tooltip-text {
+    opacity: 1;
+    transition: opacity 0.1s ease-out 1s;
+}
+
+.tooltip-text::after {
+    content: " ";
+    position: absolute;
+    bottom: 90%;
+    /* At the top of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent black transparent;
 }

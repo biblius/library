@@ -1,7 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const cors = require('cors')
+const cors = require('cors');
+const morgan = require('morgan');
+const errorhandler = require('errorhandler')
 
 //connect to mongoDB
 mongoose.connect('mongodb://127.0.0.1/knjige',
@@ -20,19 +22,20 @@ app.use(cors({
   methods: ['GET', 'POST', 'DELETE', 'PUT']
 }))
 
-//serves front end files - middleware 0
+//serves front end files
 app.use(express.static('knjige-public'))
 
-//initialize body parser before accessing routes for HTTP methods - middleware 1
+//initialize body parser before accessing routes for HTTP methods
 app.use(bodyParser.json())
 
-//initialize routes - middleware 2
+//initialize morgan - used for logging requests
+app.use(morgan('tiny'));
+
+//initialize routes
 app.use('/api', require('./knjige-routes.js'))
 
-//handle errors if none of the routes match - middleware 3
-app.use(function (err, req, res, next) {
-  res.send(err.message)
-})
+//handle errors if none of the routes match
+app.use(errorhandler())
 
 //listen for requests
 app.listen(process.env.port || 4000, function () {
