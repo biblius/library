@@ -1,0 +1,44 @@
+.card {
+  /* .borrower-entry {
+    position: relative;
+    display: block;
+    width: 250px;
+    height: 250px;
+    overflow-y: scroll;
+    margin: 5px;
+    padding: 5px;
+    text-align: left;
+    border: 1px solid rgb(0, 0, 0);
+    background-color: rgba(174, 116, 197, 0.26);
+  } */
+  position: relative;
+  width: 15.625rem;
+  height: 15.625rem;
+  overflow: auto;
+  background-color: var(--color-primary);
+  color: var(--text-on-primary);
+  padding: 1rem;
+  transition: all 0.3s ease-out;
+}
+
+.card:hover {
+  /* .borrower-entry:hover {
+  transition: background-color 300ms ease-out 0s;
+  background-color: rgba(138, 56, 170, 0.541);
+} */
+  background-color: var(--color-primary-light);
+  padding: 1rem;
+}
+
+.card__icon,
+.btn-remove {
+  /*
+    Da bi ti ovaj tooltip unutar kartice uvijek bio dolje koristis position: absolute
+    unutar position: relative kartice.
+    Ili position: sticky. Jer u ovom slucaju iz nekog razloga absolute ne radi kako bi ocekivao.
+  */
+  position: sticky !important;
+  bottom: 0.5rem !important;
+  right: 0.5rem;
+  padding: 0.5rem;
+}

@@ -1,0 +1,11 @@
+.borrower__container {
+  display: flex;
+  flex-wrap: wrap;
+  /*
+    Kad imas proizvoljno elemenata u redu bolje je da pomocu gap/column-gap/row-gap
+    propertyja kontroliras prostor između njih.
+  */
+  gap: 2rem;
+
+  list-style-type: none;
+}

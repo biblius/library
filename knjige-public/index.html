@@ -1,33 +1,43 @@
 <!DOCTYPE html>
 
 <head>
-    <title>Biblius library</title>
-    <script defer type="module" src="./knjige.js"></script>
-    <link rel="stylesheet" href="./style.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <title>Biblius library</title>
+  <script defer type="module" src="./knjige.js"></script>
+  <link rel="stylesheet" href="./assets/styles/style.css" />
+  <link
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet"
+  />
 </head>
 
 <body>
+  <header>
+    <h1>Library of Biblius</h1>
+  </header>
 
-    <header>
-        <h1>Library of Biblius</h1>
-    </header>
+  <main>
+    <!--
+          Nema potrebe da ovdje koristis div, ovo je section jer je sadrzaj smisleno grupiran zajedno i to cini jednu malu cjelinu.
+          Osobno bih ovdjela koristila section element i koristila bih class umjesto id jer je losa praksa, previse specifican ako ti
+          sluzi samo za stiliziranje.
+          Također, za pisanja klasa pogledaj si BEM malo: http://getbem.com/
+        -->
+    <div id="new-borrower-container">
+      <!--
+            Ovo je naslov sekcije ili poglavlja, pripada pod glavni naslov. Znaci koristis sljedeci po redu heading element, odnosno h2.
+         -->
+      <p>Add new borrower</p>
+      <form class="input-field">
+        <label for="borrower-name-add">Name</label>
+        <input id="borrower-name-add" type="text" required />
+        <label for="book-input-add">Book</label>
+        <input id="book-input-add" type="text" required />
+        <br />
+        <button id="add-button">Submit</button>
+      </form>
+    </div>
 
-    <main>
-        <div id="new-borrower-container">
-            <p>Add new borrower</p>
-            <form class="input-field">
-                <label for="borrower-name-add">Name</label>
-                <input id="borrower-name-add" type="text" required>
-                <label for="book-input-add">Book</label>
-                <input id="book-input-add" type="text" required>
-                <br>
-                <button id="add-button">Submit</button>
-            </form>
-        </div>
-
-        <p class="title">Oni koji mi imaju knjige</p>
-        <ul id="borrower-container">
-        </ul>
-    </main>
+    <p class="title">Oni koji mi imaju knjige</p>
+    <ul class="borrower__container" id="borrower-container"></ul>
+  </main>
 </body>

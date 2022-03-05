@@ -1,0 +1,26 @@
+/*
+  Ovdje cemo na jedno mjesto staviti neke globalne varijable koje koristimo za stiliziranje.
+  Ovako na samo jednom mjestu mijenjamo cijelu paletu boja, font i nekih osnovnih postavki.
+*/
+:root {
+  /*
+    Inace, za najlakse i random definiranje boja najcesce koristim coolors: https://coolors.co/
+    A ove kao nijanse sam generirala pomocu Material Design generatora: https://material.io/resources/color/#!/?view.left=0&view.right=1&primary.color=8a38aa&secondary.color=17bebb
+  */
+  --color-primary: #5e2673;
+  --color-primary-light: #8d52a2;
+  --color-primary-dark: #310047;
+  --color-secondary: #17bebb;
+  --color-secondary-light: #64f1ed;
+  --color-secondary-dark: #008d8b;
+  /*
+    Inace za crnu i bijelu se ne preporuca koristit cista crna i bijela.
+    Jest da je kontrast najveci ali zna biti dosta jako za oci jer su
+    obje boje u potpunosti zasicene.
+  */
+  --color-black: #2e282a;
+  --color-white: #f2e9e4;
+
+  --text-on-primary: var(--color-white);
+  --text-on-secondary: var(--color-black);
+}
