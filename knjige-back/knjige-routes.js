@@ -14,7 +14,6 @@ router.get('/knjige', (req, res, next) => {
 
 //get the last 15 transactions
 router.get('/knjige/history', (req, res, next) => {
-    console.log(req.body)
     History.aggregate([
         { '$sort': { 'date': -1 } },
         { '$limit': 15 }

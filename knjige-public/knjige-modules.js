@@ -116,7 +116,7 @@ const setAttributes = (el, attributes) => {
 const formatDate = (dateString) => {
     dateString = dateString.replaceAll('-', '/')
         .replace('T', ', ')
-        .slice(0, 20)
+        .slice(0, 17)
     return dateString;
 }
 

@@ -26,9 +26,19 @@ const appendHistory = () => {
         entry.date = formatDate(entry.date);
         const listing = document.createElement('li');
         for (let key in entry) {
-            if (entry[key] != entry._id && entry[key] != entry.__v) {
+            if (entry[key] != entry._id && entry[key] != entry.__v && entry[key] != entry.type) {
                 const p = document.createElement('p');
-                p.innerHTML = `${key} : ${entry[key]}`;
+                p.innerHTML = `${key.toUpperCase()} - ${entry[key]}`;
+                listing.appendChild(p);
+            }
+            if(entry[key] === entry.type){
+                const p = document.createElement('p');
+                p.innerHTML = `${entry[key]}`;
+                if(entry[key] === "BORROWED"){
+                    p.classList.add('p-borrowed');
+                } else {
+                    p.classList.add('p-returned');
+                }
                 listing.appendChild(p);
             }
         }
@@ -37,7 +47,22 @@ const appendHistory = () => {
 }
 appendHistory();
 
-//insert borrowers to database
+/////////Add borrowers to database//////////
+
+//Arrow animation
+$('.new-borrower-container h2').on('click', () => {
+    if ($('.arrow')[0].style.transform != "rotate(90deg)") {
+        $('.arrow')[0].style.animation = "200ms ease-in rotateCW-0-90";
+        $('.arrow')[0].style.transform = "rotate(90deg)";
+    } else {
+        $('.arrow')[0].style.animation = "200ms ease-in rotateCCW-90-0"
+        $('.arrow')[0].style.transform = "rotate(0deg)";
+    }
+    setTimeout(() => $('.arrow')[0].style.animation = null, 200);
+    $('.input-field').slideToggle(200);
+})
+
+//Creates input fields for post request
 const nameInputAdd = document.querySelector('#borrower-name-add');
 const bookInputAdd = document.querySelector('#book-input-add');
 const addButton = document.getElementById('add-button');
@@ -49,62 +74,52 @@ addButton.addEventListener('click', () => {
     }
 })
 
-//adds the necessary html elements for each borrower
-const appendBorrowers = () => {
-    for (let i = 0; i < borrowers.length; i++) {
-        
+///////////////////Adds the necessary html elements for each borrower//////////////////////////
+const appendBorrowers = (borrowerArray) => {
+    for (let i = 0; i < borrowerArray.length; i++) {
+
         const borrowerCard = document.createElement('li');
         borrowerCard.classList.add('borrower-card');
-        borrowerCard.setAttribute("id", `borrower-${borrowers[i]._id}`);
-        
+        borrowerCard.setAttribute("id", `borrower-${borrowerArray[i]._id}`);
+
         ///////////////Name, book, date/////////////////////
         const pName = document.createElement('p');
-        pName.innerHTML = `Name: ${borrowers[i].name}`;
-        
+        pName.innerHTML = `Name: ${borrowerArray[i].name}`;
+
         const pBook = document.createElement('p');
-        pBook.innerHTML = `Book: ${borrowers[i].book}`;
+        pBook.innerHTML = `Book: ${borrowerArray[i].book}`;
 
         const pDate = document.createElement('p');
-        const date = formatDate(borrowers[i].dateBorrowed);
+        const date = formatDate(borrowerArray[i].dateBorrowed);
         pDate.innerHTML = `Date: ${date}`;
 
         borrowerCard.appendChild(pName);
         borrowerCard.appendChild(pBook);
         borrowerCard.appendChild(pDate);
-        
+
         ////////////////////Show notes button////////////////////////
         const buttonShowNotes = document.createElement('button');
         buttonShowNotes.innerHTML = "Show notes";
         buttonShowNotes.classList.add("btn-show-notes");
-        buttonShowNotes.setAttribute("id", `show-notes-${borrowers[i]._id}`);
+        buttonShowNotes.setAttribute("id", `show-notes-${borrowerArray[i]._id}`);
         borrowerCard.appendChild(buttonShowNotes);
-        
 
-        ////////////////////Remove borrower icon and tooltip/////////////////////////
-        const tooltip = document.createElement('div');
-        const tooltipText = document.createElement('span');
-        tooltip.classList.add('tooltip');
-        tooltipText.classList.add('tooltip-text');
-        tooltipText.innerHTML = "Remove Borrower";
-        
+
+        ////////////////////Remove borrower icon/////////////////////////
         const buttonRemove = document.createElement('i');
         buttonRemove.innerHTML = "remove_circle_outline";
         setAttributes(buttonRemove, {
             "class": "material-icons btn-remove tooltip",
-            "id": `remove-${borrowers[i]._id}`,
-            "onClick": 'window.location.reload();'
+            "id": `remove-${borrowerArray[i]._id}`            
         });
-        tooltip.appendChild(tooltipText);
-        buttonRemove.appendChild(tooltip);
         borrowerCard.appendChild(buttonRemove);
-
         borrowerContainer.appendChild(borrowerCard);
     }
 }
 //Creates a note container with add/remove note buttons and appends notes to it
 //if any are present. 
 const showNotes = (card) => {
-    
+
     //create note container and list
     const noteContainer = document.createElement('div');
     const noteList = document.createElement('ul');
@@ -122,11 +137,12 @@ const showNotes = (card) => {
         })
     } else {
         const msg = document.createElement('p');
-        msg.innerHTML = "You haven't added any notes yet";
+        msg.innerHTML = "You haven't added any notes";
+        msg.classList.add('empty-note-msg')
         noteList.appendChild(msg);
     }
     noteContainer.appendChild(noteList);
-    
+
     //////////////Add note button////////////////////////////
     const buttonAddNote = document.createElement('button');
     buttonAddNote.classList.add("btn-note");
@@ -183,7 +199,7 @@ const showNotes = (card) => {
 
 //if there are no borrowers just send a message
 if (borrowers.length > 0) {
-    appendBorrowers();
+    appendBorrowers(borrowers);
 } else {
     let p = document.createElement('p');
     p.innerHTML = "No borrowers... yet";
@@ -212,7 +228,8 @@ removeBorrowerButtons.forEach(button => {
     button.addEventListener('click', () => {
         borrowers.forEach(borrower => {
             if (button.getAttribute('id') === `remove-${borrower._id}`) {
-                deleteRequest(borrower._id);
+                deleteRequest(borrower._id)
+                borrowerContainer.removeChild($(`#borrower-${borrower._id}`)[0]);
             }
         })
     })
