@@ -15,10 +15,10 @@
     "errorhandler": "^1.5.1",
     "express": "^4.17.3",
     "mongodb": "^4.4.0",
-    "mongoose": "^6.2.4",
-    "morgan": "^1.10.0"
+    "mongoose": "^6.2.4"
   },
   "devDependencies": {
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.15"
   }
 }

@@ -1,7 +1,7 @@
 const url = "http://localhost:4000/api/knjige";
 
 //returns all borrowers 
-const getRequest = () => {
+const getBorrowers = () => {
     let borrowers = fetch(url, {
         method: "GET",
         mode: 'cors',
@@ -13,10 +13,27 @@ const getRequest = () => {
             }
             throw new Error('Request failed!');
         }).then(jsonResponse => {
-            console.log(jsonResponse)
             return jsonResponse;
         })
     return borrowers;
+}
+
+//returns all borrowers 
+const getHistory = () => {
+    let history = fetch(url + '/history', {
+        method: "GET",
+        mode: 'cors',
+        "Access-Control-Allow-Origin": "http://127.0.0.1:4000"
+    })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Request failed!');
+        }).then(jsonResponse => {
+            return jsonResponse;
+        })
+    return history;
 }
 
 const postRequest = (borrowerName, borrowedBook) => {
@@ -24,7 +41,7 @@ const postRequest = (borrowerName, borrowedBook) => {
     const body = {
         name: borrowerName,
         book: borrowedBook,
-        dateBorrowed: date.toDateString()
+        dateBorrowed: date
     }
     console.log(body);
     fetch(url, {
@@ -66,20 +83,15 @@ const addNotesPut = (id, note) => {
     })
 }
 
-const deleteNotesPut = (id, note) => {
-    let body = {
-        notes: note,
-        deleteNote: true
-    }
-    let newUrl = `${url}/${id}`
+const deleteNotes = (id, note) => {
+    let newUrl = `${url}/${id}/notes`
     fetch(newUrl, {
-        method: 'PUT',
+        method: 'DELETE',
         headers: {
             mode: 'cors',
             'Content-Type': 'application/json',
             "Access-Control-Allow-Origin": "http://127.0.0.1:4000"
-        },
-        body: JSON.stringify(body)
+        }
     })
 }
 
@@ -100,6 +112,24 @@ const setAttributes = (el, attributes) => {
     }
 }
 
-const requests = { getRequest, postRequest, deleteRequest, addNotesPut, deleteNotesPut, toggleColor, setAttributes }
+//formats the date to a human readable format
+const formatDate = (dateString) => {
+    dateString = dateString.replaceAll('-', '/')
+        .replace('T', ', ')
+        .slice(0, 20)
+    return dateString;
+}
+
+const requests = {
+    getBorrowers,
+    postRequest,
+    deleteRequest,
+    addNotesPut,
+    deleteNotes,
+    toggleColor,
+    setAttributes,
+    formatDate,
+    getHistory
+}
 export default requests;
 

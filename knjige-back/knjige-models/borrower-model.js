@@ -25,14 +25,14 @@ const borrowerSchema = new Schema({
         required: [true, "Book is required"]
     },
     dateBorrowed: {
-        type: String
+        type: Date
     },
     notes: {
         type: Array,
         default: []
     }
 });
-
-const Borrower = mongoose.model('borrower', borrowerSchema)
+const Borrower = mongoose.model('borrower', borrowerSchema);
 
 module.exports = Borrower;
+

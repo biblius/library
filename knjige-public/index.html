@@ -2,9 +2,10 @@
 
 <head>
     <title>Biblius library</title>
-    <script defer type="module" src="./knjige.js"></script>
     <link rel="stylesheet" href="./style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script defer src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script defer type="module" src="./knjige.js"></script>
 </head>
 
 <body>
@@ -14,7 +15,7 @@
     </header>
 
     <main>
-        <div id="new-borrower-container">
+        <section class="new-borrower-container">
             <p>Add new borrower</p>
             <form class="input-field">
                 <label for="borrower-name-add">Name</label>
@@ -24,10 +25,17 @@
                 <br>
                 <button id="add-button">Submit</button>
             </form>
-        </div>
+        </section>
 
-        <p class="title">Oni koji mi imaju knjige</p>
-        <ul id="borrower-container">
+        <h2 class="title">Oni koji mi imaju knjige</h2>
+        <ul class="borrower-container">
         </ul>
+
+        <section class="history">
+            <h2>History</h2>
+            <ol class="history-list">
+            </ol>
+        </section>
+
     </main>
 </body>
